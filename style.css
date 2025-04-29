@@ -31,4 +31,30 @@ body {
     background-color: var(--cart-col);
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border-radius: 8px;
+    padding: 14px;
+}
+
+.counter {
+    width: 6rem;
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    /* padding: 1rem; */
+    border: 2px solid var(--secondary-col);
+    border-radius: 5px;
+}
+
+.add, .minus {
+    width: 1.7rem;
+    height: 100%;
+    color: var(--ternary-txt-col);
+    background-color: var(--secondary-col);
+    /* border: 2px solid #000; */
+
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
