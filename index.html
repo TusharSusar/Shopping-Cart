@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Shoping Cart</title>
+    <link rel="shortcut icon" href="./Images/shopping-cart5929.jpg" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,5 +16,20 @@
             <div class="add center">+</div>
         </div>
     </div>
+
+    <script>
+        const addBtn= document.querySelector('.add')
+        const minusBtn = document.querySelector('.minus')
+        const countNumber = document.querySelector('.count-num')
+
+        let countnum = 0;
+        countNumber.innerText = countnum;
+
+        addBtn.addEventListener('click', () => {
+            countnum++;
+            countNumber.innerText = countnum;
+        })
+
+    </script>
 </body>
 </html>

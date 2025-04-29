@@ -49,8 +49,7 @@ body {
     height: 100%;
     color: var(--ternary-txt-col);
     background-color: var(--secondary-col);
-    /* border: 2px solid #000; */
-
+    cursor: pointer;
 }
 
 .center {
