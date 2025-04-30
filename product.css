@@ -34,7 +34,7 @@ body {
 }
 
 img {
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .add,
@@ -139,22 +139,81 @@ img {
 /*! _______________________________________ Cart Style _______________________________________  */
 
 .cart {
-  width: 20%;
+  width: 350px;
   height: 100vh;
+  padding: 14px;
   position: fixed;
   top: 0;
   right: 0;
   background-color: var(--cart-col);
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   border-top: 2px solid #ccc;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
-.cart-total {
-  width: 400px;
-  height: 100px;
-  background-color: var(--body-col);
-  position: fixed;
-  bottom: 0;
-  right: 0;
+.order-btn {
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 5px 1rem;
+  color: var(--ternary-txt-col);
+  background-color: var(--secondary-col);
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  gap: 8px;
+}
+
+.cart-heading {
+  gap: 12px;
+  border-bottom: 2px solid #ccc;
+}
+
+.cart-icon {
+  margin-top: 6px;
+}
+
+.cart-amount {
+  width: 100%;
+  /* gap: 25px; */
+  justify-content: space-around;
+  margin-bottom: 1rem;
+}
+
+.wishlist {
+  width: 100%;
+  min-height: 80vh;
+  height: auto;
+  /* border: 1px solid #ccc; */
+}
+
+.wishlist-item {
+  width: 100%;
+  height: 90px;
+  border-bottom: 1px solid #ccc;
   justify-content: space-evenly;
+}
+
+.item-img {
+  width: 80px;
+  height: 100%;
+  margin-right: 10px;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+/*! ___________________________________ @Media Queries ________________________________________ */
+
+@media screen and (max-width: 900px) {
+  .cart {
+    width: 100%;
+    height: 125px;
+    position: fixed;
+    bottom: 0;
+    top: auto;
+  }
+
+  .product-list {
+    width: 100%;
+  }
 }

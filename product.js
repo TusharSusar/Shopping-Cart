@@ -33,21 +33,21 @@ const products = [
     price: 22999,
     isFreeDelivry: true,
   },
-  
+
   {
     url: "https://images.meesho.com/images/products/473636911/urpyz_512.webp",
     title: "VVivo X200 Pro 5G 16GB 512GB Cosmos Black",
     price: 91999,
     isFreeDelivry: true,
   },
-  
+
   {
     url: "https://images.meesho.com/images/products/420152141/taw4t_512.webp",
     title: "Xiaomi Redmi 13C 4G 8GB 256GB Stardust Black",
     price: 10399,
     isFreeDelivry: true,
   },
-  
+
   {
     url: "https://images.meesho.com/images/products/421224803/xtuvp_512.webp",
     title: "Oppo F25 PRO 5G 8GB 128GB Coral Purple",
@@ -66,7 +66,7 @@ const products = [
     title: "VVivo X200 Pro 5G 16GB 512GB Cosmos Black",
     price: 91999,
     isFreeDelivry: true,
-  }
+  },
 ];
 
 const productList = document.querySelector(".product-list");
@@ -86,16 +86,16 @@ const createProduct = (url, title, price) => {
           class="product-img"
         />
         <p class="title">${title}</p>
-        <h2 class="price">${price}</h2>
+        <h2 class="price">₹${price}</h2>
         <div class="product-buy center">
-        <div class="counter center">
+          <div class="counter center">
             <p class="add-cart">Add to Cart</p>
             <div class="count-show">
               <div class="minus center">-</div>
               <div class="count-num center"></div>
               <div class="add center">+</div>
             </div>
-          </div>
+        </div>
           <div type="button" class="buybtn center">Buy Now</div>
       </div>
       </div>`;
@@ -117,11 +117,33 @@ const updateProductListeners = () => {
     const countNumber = product.querySelector(".count-num");
     const addBtn = product.querySelector(".add");
     const minusBtn = product.querySelector(".minus");
+    const card = counter.closest(".card");
 
     counter.addEventListener("click", () => {
       addCart.innerText = "";
       countShow.classList.add("show");
       countNumber.innerText = countnum;
+
+      // Get the image URL, title, and price from within this card
+      const img = card.querySelector(".product-img").src;
+      const title = card.querySelector(".title").innerText;
+      const price = card.querySelector(".price").innerText;
+
+      let clickedProductDetails = {
+        img: img,
+        title: title,
+        price: price,
+      };
+
+      let productDetails = JSON.stringify(clickedProductDetails);
+
+      localStorage.setItem("productDetails", productDetails);
+
+      addToCart(
+        clickedProductDetails.img,
+        clickedProductDetails.title,
+        clickedProductDetails.price
+      );
     });
 
     addBtn.addEventListener("click", () => {
@@ -137,7 +159,6 @@ const updateProductListeners = () => {
           countShow.classList.remove("show");
           addCart.innerText = "Add to Cart";
           console.log(addCart.innerText);
-          
         }
       }
     });
@@ -145,3 +166,29 @@ const updateProductListeners = () => {
 };
 
 updateProductListeners();
+
+const wishlist = document.querySelector(".wishlist");
+
+const addToCart = (imgurl, title, price) => {
+  // let l = localStorage.getItem("productDetails");
+  // let addedProduct = JSON.parse(l);
+  // console.log(addedProduct);
+  // console.log(typeof addedProduct);
+
+  wishlist.innerHTML = `
+        <div class="wishlist-item center">
+          <div class="item-img">
+            <img src="${imgurl}" width="100%" height="100%" />
+          </div>
+          <div class="item-detail">
+            <p class="item-name">${title}</p>
+            <strong class="item-price">${price}</strong>
+          </div>
+        </div>`;
+
+  // const cartItemImage = document.querySelector(".item-img");
+  // const cartItemTitle = document.querySelector(".item-name");
+  // const cartItemPrice = document.querySelector(".item-price");
+  // cartItemTitle.innerText = `${title}`
+  // cartItemPrice.innerText = `${price}`
+};
