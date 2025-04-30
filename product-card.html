@@ -1,29 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Product Card</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <style>
-        .card {
-            width: 300px;
-            height: 400px;
-            background-color: #fff;
-            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-        }
+      .card {
+        width: 300px;
+        height: 400px;
+        background-color: #fff;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        padding: 1rem;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .product-img {
+        width: 100%;
+        height: 200px;
+        border-radius: 8px;
+      }
+
+      .counter {
+        width: 50%;
+        height: 35px;
+        border: 2px solid var(--secondary-col);
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .count-show {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        display: none;
+      }
+
+      .show {
+        display: flex;
+      }
     </style>
-</head>
-<body>
-    <div class="card">
-        <div class="product-img"></div>
-        <div class="product-price"></div>
-        <p class="description"></p>
-        <div class="counter">
+  </head>
+  <body>
+    <div class="product-list">
+      <div class="card">
+        <img
+          src=""
+          alt="Product Image"
+          class="product-img"
+        />
+        <p class="title">KiCO ® Kids T-shirt and Shorts Set ( Pack of 1 )</p>
+        <h2 class="price">499</h2>
+        <div class="counter center">
+          <p class="add-cart">Add to Cart</p>
+          <div class="count-show">
             <div class="minus center">-</div>
             <div class="count-num center">0</div>
             <div class="add center">+</div>
+          </div>
         </div>
+      </div>
     </div>
-</body>
+
+    <script>
+        let counter = document.querySelector('.counter')
+        let countShow = document.querySelector('.count-show')
+        let addCart = document.querySelector('.add-cart')
+
+        counter.addEventListener('click', () => {
+            addCart.style.display = 'none'
+            countShow.classList.add('show');
+        })
+    </script>
+    <script src="product.js"></script>
+  </body>
 </html>

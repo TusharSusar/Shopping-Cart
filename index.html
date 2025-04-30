@@ -1,35 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shoping Cart</title>
-    <link rel="shortcut icon" href="./Images/shopping-cart5929.jpg" type="image/x-icon">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link
+      rel="shortcut icon"
+      href="./Images/shopping-cart5929.jpg"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="card" id="card1">
+      <img
+        src="https://images.meesho.com/images/products/191005346/mocgn_512.webp"
+        alt="Product Image"
+        class="product-img"
+      />
+      <p class="title">KURTI</p>
+      <h2 class="product-price">499</h2>
+      <div class="product-buy center">
+        <div class="counter center">
+            <p class="add-cart">Add to Cart</p>
+            <div class="count-show">
+              <div class="minus center">-</div>
+              <div class="count-num center"></div>
+              <div class="add center">+</div>
+            </div>
+          </div>
+          <button type="button" class="buybtn">Buy Now</button>
+      </div>
+    </div>
+
+    <div class="card" id="card2">
+      <img
+        src="https://images.meesho.com/images/products/404447595/wpmy5_512.webp"
+        alt="Product Image"
+        class="product-img"
+      />
+      <p class="title">KURTI</p>
+      <h2 class="product-price">499</h2>
+      <div class="product-buy center">
+        <div class="counter center">
+            <p class="add-cart">Add to Cart</p>
+            <div class="count-show">
+              <div class="minus center">-</div>
+              <div class="count-num center"></div>
+              <div class="add center">+</div>
+            </div>
+          </div>
+          <button type="button" class="buybtn">Buy Now</button>
+      </div>
+    </div>
     <div class="cart-container">
-        <h2>Shopping Cart</h2>
-        <div class="counter">
-            <div class="minus center">-</div>
-            <div class="count-num center">0</div>
-            <div class="add center">+</div>
-        </div>
+      <h2>Shopping Cart</h2>
+      <div class="products">
+        <!-- <div class="product">
+            <img src="" alt="" />
+            <p class="product-cart-title"></p>
+            <b class="product-cart-price"></b>
+        </div> -->
+      </div>
+    </div>
+
+    <div class="cart-total center">
+      <div class="cart-totalAmount">
+        <p>Total Amount :</p>
+        <b class="totalAmount">0</b>
+      </div>
+      <button type="button" class="buybtn">Buy Now</button>
     </div>
 
     <script>
-        const addBtn= document.querySelector('.add')
-        const minusBtn = document.querySelector('.minus')
-        const countNumber = document.querySelector('.count-num')
+      const addBtn = document.querySelector(".add");
+      const minusBtn = document.querySelector(".minus");
+      const countNumber = document.querySelector(".count-num");
+      const counter = document.querySelector(".counter");
+      const countShow = document.querySelector(".count-show");
+      const addCart = document.querySelector(".add-cart");
+      let productPrice = document.querySelector(".product-price").innerText;
+      let productTitle = document.querySelector(".title").innerText;
 
-        let countnum = 0;
+      const products = document.querySelector(".products");
+      let productCartTitle = document.querySelector(".product-cart-title");
+      let productCartPrice = document.querySelector(".product-cart-price");
+
+      let countnum = 0;
+      countnum++;
+      countNumber.innerText = countnum;
+
+      counter.addEventListener("click", () => {
+        addCart.classList.add("hide");
+        countShow.classList.add("show");
+        console.log(countnum);
+
+        if (countnum === 1) {
+          productDiv.classList.add("product");
+          productDiv.innerHTML = `
+                <img src="${link}" class="product-cart-img" />
+                <div class="product-cart-info"><p class="product-cart-title">${productTitle}</p>
+                <b class="product-cart-price">₹${productPrice}</b></div>`;
+          products.append(productDiv);
+
+          updateCart(productPrice);
+        }
+      });
+
+      addBtn.addEventListener("click", () => {
+        countnum++;
         countNumber.innerText = countnum;
 
-        addBtn.addEventListener('click', () => {
-            countnum++;
-            countNumber.innerText = countnum;
-        })
+        const productDiv = document.createElement("div");
 
+        productDiv.classList.add("product");
+        productDiv.innerHTML = `
+            <img src="https://images.meesho.com/images/products/267550818/fu5x3_512.webp" alt="Product Image" class="product-cart-img" />
+            <div class="product-cart-info"><p class="product-cart-title">${productTitle}</p>
+            <b class="product-cart-price">₹${productPrice}</b></div>`;
+        products.append(productDiv);
+
+        updateCart(productPrice);
+      });
+
+      minusBtn.addEventListener("click", () => {
+        if (countnum > 0) {
+          countnum--;
+          countNumber.innerText = countnum;
+
+          if (countnum == 0) {
+            countShow.style.display = "none";
+            addCart.classList.remove("hide");
+            console.log(addCart.innerText);
+          }
+        }
+      });
+
+      let totalCartAmount = document.querySelector(".totalAmount");
+
+      let updateCart = (price) => {
+        totalCartAmount.innerText = `₹${productPrice * countnum}`;
+        console.log(totalCartAmount.innerText);
+      };
     </script>
-</body>
+    <!-- <script src="product.js"></script> -->
+  </body>
 </html>
