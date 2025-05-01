@@ -70,7 +70,8 @@ img {
 .product-img {
   width: 100%;
   height: 200px;
-  border-radius: 8px;
+  /* border-radius: 8px; */
+  border: 1px solid #ccc;
 }
 
 .product-buy {
