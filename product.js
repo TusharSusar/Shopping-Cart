@@ -86,7 +86,7 @@ const createProduct = (url, title, price) => {
           class="product-img"
         />
         <p class="title">${title}</p>
-        <h2 class="price">₹${price}</h2>
+        <h2 class="price">${price}</h2>
         <div class="product-buy center">
           <div class="counter center">
             <p class="add-cart">Add to Cart</p>
@@ -106,9 +106,10 @@ products.forEach((element) => {
   createProduct(element.url, element.title, element.price);
 });
 
+
 const updateProductListeners = () => {
   const products = document.querySelectorAll(".product");
-
+  
   products.forEach((product) => {
     let countnum = 1;
     const counter = product.querySelector(".counter");
@@ -118,39 +119,46 @@ const updateProductListeners = () => {
     const addBtn = product.querySelector(".add");
     const minusBtn = product.querySelector(".minus");
     const card = counter.closest(".card");
+    
+    // Get the image URL, title, and price from within this card
+    const img = card.querySelector(".product-img").src;
+    const title = card.querySelector(".title").innerText;
+    const rawPrice = card.querySelector(".price").innerText;
+    const price = parseFloat(rawPrice.replace(/[^0-9.]/g, "")); // removes non-numeric characters
+    
+    let clickedProductDetails = {
+      img: img,
+      title: title,
+      price: price,
+    };
 
     counter.addEventListener("click", () => {
       addCart.innerText = "";
       countShow.classList.add("show");
       countNumber.innerText = countnum;
-
-      // Get the image URL, title, and price from within this card
-      const img = card.querySelector(".product-img").src;
-      const title = card.querySelector(".title").innerText;
-      const price = card.querySelector(".price").innerText;
-
-      let clickedProductDetails = {
-        img: img,
-        title: title,
-        price: price,
-      };
-
+      
       let productDetails = JSON.stringify(clickedProductDetails);
-
       localStorage.setItem("productDetails", productDetails);
-
+      
+      // console.log(clickedProductDetails.price);
+      // console.log(typeof clickedProductDetails.price);
+      
       addToCart(
         clickedProductDetails.img,
         clickedProductDetails.title,
         clickedProductDetails.price
       );
+      calculateTotalPrice(clickedProductDetails.price)
     });
 
+    
     addBtn.addEventListener("click", () => {
       countnum++;
       countNumber.innerText = countnum;
+      
+      calculateTotalPrice(clickedProductDetails.price)
     });
-
+    
     minusBtn.addEventListener("click", () => {
       if (countnum > 0) {
         countnum--;
@@ -174,21 +182,37 @@ const addToCart = (imgurl, title, price) => {
   // let addedProduct = JSON.parse(l);
   // console.log(addedProduct);
   // console.log(typeof addedProduct);
-
+  
   wishlist.innerHTML = `
         <div class="wishlist-item center">
-          <div class="item-img">
-            <img src="${imgurl}" width="100%" height="100%" />
-          </div>
-          <div class="item-detail">
-            <p class="item-name">${title}</p>
-            <strong class="item-price">${price}</strong>
-          </div>
+        <div class="item-img">
+        <img src="${imgurl}" width="100%" height="100%" />
+        </div>
+        <div class="item-detail">
+        <p class="item-name">${title}</p>
+        <strong class="item-price">${price}</strong>
+        </div>
         </div>`;
-
-  // const cartItemImage = document.querySelector(".item-img");
-  // const cartItemTitle = document.querySelector(".item-name");
-  // const cartItemPrice = document.querySelector(".item-price");
-  // cartItemTitle.innerText = `${title}`
-  // cartItemPrice.innerText = `${price}`
+        
+        // const cartItemImage = document.querySelector(".item-img");
+        // const cartItemTitle = document.querySelector(".item-name");
+        // const cartItemPrice = document.querySelector(".item-price");
+        // cartItemTitle.innerText = `${title}`
+        // cartItemPrice.innerText = `${price}`
 };
+
+const cartItemPrice = [];
+const totalAmount = document.querySelector('.total-amount')
+
+const calculateTotalPrice = (price) => {
+  let finalPrice = 0;
+  cartItemPrice.push(price)
+  // console.log(cartItemPrice);
+
+  cartItemPrice.forEach((price)=> {
+    finalPrice = finalPrice + price
+    // console.log(finalPrice);
+    totalAmount.innerText = `${finalPrice}`
+  });
+  
+}
