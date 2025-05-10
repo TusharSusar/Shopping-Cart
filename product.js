@@ -67,6 +67,20 @@ const products = [
     price: 91999,
     isFreeDelivry: true,
   },
+  
+  {
+    url: "https://images.meesho.com/images/products/473711381/3z6l6_512.webp",
+    title: "Redmi Note 14 Pro 5G 8GB 256GB Tịtan Black",
+    price: 25499,
+    isFreeDelivry: true,
+  },
+  
+  {
+    url: "https://images.meesho.com/images/products/438628510/egova_512.webp",
+    title: "Redmi 12 6GB 128GB Jade Black",
+    price: 9549,
+    isFreeDelivry: true,
+  },
 ];
 
 const productList = document.querySelector(".product-list");
@@ -89,7 +103,7 @@ const createProduct = (url, title, price) => {
         <h2 class="price">${price}</h2>
         <div class="product-buy center">
           <div class="counter center">
-            <p class="add-cart">Add to Cart</p>
+            <div class="add-cart center">Add to Cart</div>
             <div class="count-show">
               <div class="minus center">-</div>
               <div class="count-num center"></div>
@@ -102,14 +116,13 @@ const createProduct = (url, title, price) => {
   productList.append(productDiv);
 };
 
-products.forEach((element) => {
-  createProduct(element.url, element.title, element.price);
-});
-
+// products.forEach((element) => {
+//   createProduct(element.url, element.title, element.price);
+// });
 
 const updateProductListeners = () => {
   const products = document.querySelectorAll(".product");
-  
+
   products.forEach((product) => {
     let countnum = 1;
     const counter = product.querySelector(".counter");
@@ -119,100 +132,102 @@ const updateProductListeners = () => {
     const addBtn = product.querySelector(".add");
     const minusBtn = product.querySelector(".minus");
     const card = counter.closest(".card");
-    
+
     // Get the image URL, title, and price from within this card
     const img = card.querySelector(".product-img").src;
     const title = card.querySelector(".title").innerText;
     const rawPrice = card.querySelector(".price").innerText;
     const price = parseFloat(rawPrice.replace(/[^0-9.]/g, "")); // removes non-numeric characters
-    
+
     let clickedProductDetails = {
       img: img,
       title: title,
       price: price,
     };
 
-    counter.addEventListener("click", () => {
-      addCart.innerText = "";
+    addCart.addEventListener("click", () => {
+      addCart.classList.add('hide')
       countShow.classList.add("show");
       countNumber.innerText = countnum;
-      
-      let productDetails = JSON.stringify(clickedProductDetails);
-      localStorage.setItem("productDetails", productDetails);
-      
-      // console.log(clickedProductDetails.price);
-      // console.log(typeof clickedProductDetails.price);
-      
-      addToCart(
-        clickedProductDetails.img,
-        clickedProductDetails.title,
-        clickedProductDetails.price
-      );
-      calculateTotalPrice(clickedProductDetails.price)
+
+      // let productDetails = JSON.stringify(clickedProductDetails);
+      // localStorage.setItem("productDetails", productDetails);
+
+      addToCart(clickedProductDetails.img,clickedProductDetails.title, clickedProductDetails.price);
+      calculateTotalPrice(clickedProductDetails.price);
     });
 
-    
     addBtn.addEventListener("click", () => {
       countnum++;
       countNumber.innerText = countnum;
-      
-      calculateTotalPrice(clickedProductDetails.price)
+      calculateTotalPrice(clickedProductDetails.price);
     });
-    
+
     minusBtn.addEventListener("click", () => {
       if (countnum > 0) {
         countnum--;
         countNumber.innerText = countnum;
         if (countnum == 0) {
           countShow.classList.remove("show");
-          addCart.innerText = "Add to Cart";
+          addCart.classList.remove('hide')
           console.log(addCart.innerText);
         }
+        deductAmount(clickedProductDetails.price)
       }
     });
   });
 };
 
-updateProductListeners();
+document.addEventListener('DOMContentLoaded', () => {
+  products.forEach((element) => {
+    createProduct(element.url, element.title, element.price);
+  });
+  updateProductListeners();
+});
+
 
 const wishlist = document.querySelector(".wishlist");
 
 const addToCart = (imgurl, title, price) => {
+  
+  const wishlistItem = document.createElement('div')
+  wishlistItem.classList.add('wishlist-item','center');
+  
+  wishlistItem.innerHTML = `
+  <div class="item-img">
+  <img src="${imgurl}" width="100%" height="100%" />
+  </div>
+  <div class="item-detail">
+  <p class="item-name">${title}</p>
+  <strong class="item-price">${price}</strong>
+  </div>`;
+  
+  wishlist.append(wishlistItem)
+  
   // let l = localStorage.getItem("productDetails");
   // let addedProduct = JSON.parse(l);
   // console.log(addedProduct);
   // console.log(typeof addedProduct);
-  
-  wishlist.innerHTML = `
-        <div class="wishlist-item center">
-        <div class="item-img">
-        <img src="${imgurl}" width="100%" height="100%" />
-        </div>
-        <div class="item-detail">
-        <p class="item-name">${title}</p>
-        <strong class="item-price">${price}</strong>
-        </div>
-        </div>`;
-        
-        // const cartItemImage = document.querySelector(".item-img");
-        // const cartItemTitle = document.querySelector(".item-name");
-        // const cartItemPrice = document.querySelector(".item-price");
-        // cartItemTitle.innerText = `${title}`
-        // cartItemPrice.innerText = `${price}`
 };
 
 const cartItemPrice = [];
-const totalAmount = document.querySelector('.total-amount')
+const totalAmount = document.querySelector(".total-amount");
 
 const calculateTotalPrice = (price) => {
   let finalPrice = 0;
-  cartItemPrice.push(price)
-  // console.log(cartItemPrice);
+  cartItemPrice.push(price);
 
-  cartItemPrice.forEach((price)=> {
-    finalPrice = finalPrice + price
-    // console.log(finalPrice);
-    totalAmount.innerText = `${finalPrice}`
+  cartItemPrice.forEach((price) => {
+    finalPrice = finalPrice + price;
+    localStorage.setItem('cartTotal', finalPrice)
+    totalAmount.innerText = `${finalPrice}`;
   });
-  
+};
+
+const deductAmount = (price) => {
+  let CartValtoDeduct = localStorage.getItem('cartTotal')
+  let finalPrice = parseInt(CartValtoDeduct) - price 
+  localStorage.setItem('cartTotal', finalPrice)
+  totalAmount.innerText = `${finalPrice}`; 
 }
+
